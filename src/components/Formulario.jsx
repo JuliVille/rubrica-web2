@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import './page.css';
 
 function Formulario() {
   const [material, setMaterial] = useState("");
@@ -28,30 +29,30 @@ function Formulario() {
     const data = collection(db, "manillas");
     let precio = 0;
     if (material === "Cuero" && dije === "Martillo" && (tipo === "Oro" || tipo === "Oro Rosado")) {
-        precio = 100;
-      } else if (material === "Cuero" && dije === "Martillo" && tipo === "Plata") {
-        precio = 80;
-      } else if (material === "Cuero" && dije === "Martillo" && tipo === "Niquel") {
-        precio = 70;
-      } else if (material === "Cuero" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
-        precio = 120;
-      } else if (material === "Cuero" && dije === "Ancla" && tipo === "Plata") {
-        precio = 100;
-      } else if (material === "Cuero" && dije === "Ancla" && tipo === "Niquel") {
-        precio = 90;
-      } else if (material === "Cuerda" && dije === "Martillo" && (tipo === "Oro" || tipo === "Oro Rosado")) {
-        precio = 90;
-      } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Plata") {
-        precio = 70;
-      } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Niquel") {
-        precio = 50;
-      } else if (material === "Cuerda" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
-        precio = 110;
-      } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Plata") {
-        precio = 90;
-      } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Niquel") {
-        precio = 80;
-      }
+      precio = 100;
+    } else if (material === "Cuero" && dije === "Martillo" && tipo === "Plata") {
+      precio = 80;
+    } else if (material === "Cuero" && dije === "Martillo" && tipo === "Niquel") {
+      precio = 70;
+    } else if (material === "Cuero" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 120;
+    } else if (material === "Cuero" && dije === "Ancla" && tipo === "Plata") {
+      precio = 100;
+    } else if (material === "Cuero" && dije === "Ancla" && tipo === "Niquel") {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Martillo" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Plata") {
+      precio = 70;
+    } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Niquel") {
+      precio = 50;
+    } else if (material === "Cuerda" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 110;
+    } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Plata") {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Niquel") {
+      precio = 80;
+    }
     if (moneda === "Pesos") {
       precio *= 5000;
     }
@@ -251,7 +252,7 @@ function Formulario() {
               <input type="number" className="form-control" id="cantidad" value={cantidad} onChange={(e) => handleChange(e, setCantidad)} min="1" />
             </div>
             <div className="container text-center">
-              <button type="submit" className="btn btn-primary mb-3"> {modoEdicion ? "Editar" : "Agregar"}</button> 
+              <button type="submit" className="btn btn-primary mb-3"> {modoEdicion ? "Editar" : "Agregar"}</button>
               {modoEdicion && <button type="button" className="btn btn-secondary mb-3" onClick={cancelar}>Cancelar</button>}
             </div>
           </form>
