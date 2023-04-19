@@ -160,6 +160,16 @@ function Formulario() {
     }
   };
 
+  const cancelar = () => {
+    setMaterial("");
+    setDije("");
+    setTipo("");
+    setMoneda("");
+    setCantidad(1);
+    setPrecio(0);
+    setModoEdicion(false);
+  }
+
   return (
     <div className="container mt-5">
       <h1 className="text-center">RUBRICA WEB 2</h1>
@@ -242,6 +252,7 @@ function Formulario() {
             </div>
             <div className="container text-center">
               <button type="submit" className="btn btn-primary mb-3"> {modoEdicion ? "Editar" : "Agregar"}</button> 
+              {modoEdicion && <button type="button" className="btn btn-secondary mb-3" onClick={cancelar}>Cancelar</button>}
             </div>
           </form>
         </div>
