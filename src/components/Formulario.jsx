@@ -9,6 +9,8 @@ function Formulario() {
   const [moneda, setMoneda] = useState("");
   const [cantidad, setCantidad] = useState(1);
   const [precio, setPrecio] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modoEdicion, setModoEdicion] = useState(false);
   const [listaManillas, setListaManillas] = useState([]);
 
   useEffect(() => {
@@ -87,6 +89,77 @@ function Formulario() {
     }
   };
 
+  const editar = (id) => {
+    const selectedItem = listaManillas.find(item => item.id === id);
+    setSelectedItem(selectedItem);
+    setModoEdicion(true);
+    setDije(selectedItem.dije);
+    setTipo(selectedItem.tipo);
+    setMaterial(selectedItem.material);
+    setMoneda(selectedItem.moneda);
+    setCantidad(selectedItem.cantidad);
+  };
+
+  const editarManilla = async (event) => {
+    event.preventDefault();
+    const data = collection(db, "manillas");
+    const itemToUpdate = listaManillas.find(item => item.id === selectedItem.id);
+    let precio = 0;
+    if (material === "Cuero" && dije === "Martillo" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 100;
+    } else if (material === "Cuero" && dije === "Martillo" && tipo === "Plata") {
+      precio = 80;
+    } else if (material === "Cuero" && dije === "Martillo" && tipo === "Niquel") {
+      precio = 70;
+    } else if (material === "Cuero" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 120;
+    } else if (material === "Cuero" && dije === "Ancla" && tipo === "Plata") {
+      precio = 100;
+    } else if (material === "Cuero" && dije === "Ancla" && tipo === "Niquel") {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Martillo" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Plata") {
+      precio = 70;
+    } else if (material === "Cuerda" && dije === "Martillo" && tipo === "Niquel") {
+      precio = 50;
+    } else if (material === "Cuerda" && dije === "Ancla" && (tipo === "Oro" || tipo === "Oro Rosado")) {
+      precio = 110;
+    } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Plata") {
+      precio = 90;
+    } else if (material === "Cuerda" && dije === "Ancla" && tipo === "Niquel") {
+      precio = 80;
+    }
+
+    if (moneda === "Pesos") {
+      precio *= 5000;
+    }
+    const updatedItem = {
+      ...itemToUpdate,
+      dije,
+      tipo,
+      material,
+      moneda,
+      cantidad: parseInt(cantidad),
+      precio: precio * parseInt(cantidad),
+    };
+    try {
+      await updateDoc(doc(data, selectedItem.id), updatedItem);
+      const updatedlistaManillas = listaManillas.map(item => (item.id === selectedItem.id ? updatedItem : item));
+      setListaManillas(updatedlistaManillas);
+      setDije("");
+      setTipo("");
+      setMaterial("");
+      setMoneda("");
+      setCantidad(1);
+      setPrecio(precio * parseInt(cantidad));
+      setSelectedItem(null);
+      setModoEdicion(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center">RUBRICA WEB 2</h1>
@@ -117,7 +190,7 @@ function Formulario() {
                   <td>{item.cantidad}</td>
                   <td>{item.precio} {item.moneda}</td>
                   <td className="btnTable">
-                    <button className="btn btn-success btn-md m-1">Editar</button>
+                    <button className="btn btn-success btn-md m-1" onClick={() => editar(item.id)}>Editar</button>
                     <button className="btn btn-danger btn-md m-1" onClick={() => eliminar(item.id)}>Eliminar</button>
                   </td>
                 </tr>
@@ -126,8 +199,8 @@ function Formulario() {
           </table>
         </div>
         <div className="col-3">
-          <h4 className="text-center">Agregar</h4>
-          <form onSubmit={guardar}>
+          <h4 className="text-center">{modoEdicion ? 'Editar' : 'Agregar'}</h4>
+          <form onSubmit={modoEdicion ? editarManilla : guardar}>
             <div className="form-group">
               <label htmlFor="material">Material</label>
               <select className="form-control" id="material" value={material} onChange={(e) => handleChange(e, setMaterial)}>
@@ -168,7 +241,7 @@ function Formulario() {
               <input type="number" className="form-control" id="cantidad" value={cantidad} onChange={(e) => handleChange(e, setCantidad)} min="1" />
             </div>
             <div className="container text-center">
-              <button type="submit" className="btn btn-primary mb-3"> agregar</button> 
+              <button type="submit" className="btn btn-primary mb-3"> {modoEdicion ? "Editar" : "Agregar"}</button> 
             </div>
           </form>
         </div>
