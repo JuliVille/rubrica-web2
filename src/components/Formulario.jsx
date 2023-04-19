@@ -214,7 +214,7 @@ function Formulario() {
           <form onSubmit={modoEdicion ? editarManilla : guardar}>
             <div className="form-group">
               <label htmlFor="material">Material</label>
-              <select className="form-control" id="material" value={material} onChange={(e) => handleChange(e, setMaterial)}>
+              <select className={"form-control " + (material === "" ? "is-invalid" : "is-valid")} id="material" value={material} onChange={(e) => handleChange(e, setMaterial)} required>
                 <option value="">Selecciona una opción</option>
                 <option value="Cuero">Cuero</option>
                 <option value="Cuerda">Cuerda</option>
@@ -222,7 +222,7 @@ function Formulario() {
             </div>
             <div className="form-group">
               <label htmlFor="dije">Dije</label>
-              <select className="form-control" id="dije" value={dije} onChange={(e) => handleChange(e, setDije)}>
+              <select className={"form-control " + (dije === "" ? "is-invalid" : "is-valid")} id="dije" value={dije} onChange={(e) => handleChange(e, setDije)} required>
                 <option value="">Selecciona una opción</option>
                 <option value="Martillo">Martillo</option>
                 <option value="Ancla">Ancla</option>
@@ -230,7 +230,7 @@ function Formulario() {
             </div>
             <div className="form-group">
               <label htmlFor="tipo">Tipo</label>
-              <select className="form-control" id="tipo" value={tipo} onChange={(e) => handleChange(e, setTipo)}>
+              <select className={"form-control " + (tipo === "" ? "is-invalid" : "is-valid")} id="tipo" value={tipo} onChange={(e) => handleChange(e, setTipo)} required>
                 <option value="">Selecciona una opción</option>
                 <option value="Oro">Oro</option>
                 <option value="Baño de Oro">Baño De Oro</option>
@@ -241,7 +241,7 @@ function Formulario() {
             </div>
             <div className="form-group">
               <label htmlFor="moneda">Moneda</label>
-              <select className="form-control" id="moneda" value={moneda} onChange={(e) => handleChange(e, setMoneda)}>
+              <select className={"form-control " + (moneda === "" ? "is-invalid" : "is-valid")} id="moneda" value={moneda} onChange={(e) => handleChange(e, setMoneda)} required>
                 <option value="">Selecciona una opción</option>
                 <option value="Dolares">Dolares</option>
                 <option value="Pesos">Pesos</option>
