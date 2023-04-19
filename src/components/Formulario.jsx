@@ -75,6 +75,18 @@ function Formulario() {
     setState(event.target.value);
   };
 
+  const eliminar = async (id) => {
+    const data = collection(db, "manillas");
+    const itemToDelete = listaManillas.find(item => item.id === id);
+    try {
+      await deleteDoc(doc(data, id));
+      setListaManillas(listaManillas.filter(item => item.id !== id));
+      setPrecio(precio - itemToDelete.precio);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center">RUBRICA WEB 2</h1>
@@ -106,7 +118,7 @@ function Formulario() {
                   <td>{item.precio} {item.moneda}</td>
                   <td className="btnTable">
                     <button className="btn btn-success btn-md m-1">Editar</button>
-                    <button className="btn btn-danger btn-md m-1">Eliminar</button>
+                    <button className="btn btn-danger btn-md m-1" onClick={() => eliminar(item.id)}>Eliminar</button>
                   </td>
                 </tr>
               ))}
